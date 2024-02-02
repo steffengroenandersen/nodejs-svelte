@@ -44,6 +44,9 @@ const letters = "abc";
 // Get me the character "c"
 
 const c = letters[2];
+// const c = letters.chartAt(2);
+// const c = letters.substring(2,3);
+//const c = letters.slice(2,3);
 
 console.log(c);
 
@@ -54,8 +57,8 @@ const fact = "You are learning javascript!";
 
 // capitalize the J in Javascript
 
-const upperCasefact = fact.toUpperCase();
+const upperCasefactJ = fact.replace("j", "J");
 
-console.log(upperCasefact);
+console.log(upperCasefactJ);
 
 // --------------------------------------
