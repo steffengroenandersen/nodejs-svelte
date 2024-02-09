@@ -46,6 +46,18 @@ app.get("/wallet/:withdrawalAmount", (req, res) => {
   to fill up the wallet with a specified amount.
 */
 
+app.post("/wallet/:fillUpAmount", (req, res) => {
+  console.log("wallet/refill/:fillUpAmount");
+  const fillUpAmount = Number(req.params.fillUpAmount);
+
+  if (!fillUpAmount) res.send({ data: "You have submitted an incorrect number" });
+
+  if (fillUpAmount < 0) res.send({ data: "You have submitted an incorrect number" });
+
+  balance += fillUpAmount;
+  res.send({ data: balance });
+});
+
 app.get("/page", (req, res) => {
   res.send("<h1>Hello World</h1>"); // Express knows when to send JSON, and HTML page
 });
