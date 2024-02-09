@@ -26,6 +26,26 @@ app.get("/thirdRoute/:someKey/:someSecondKey", (req, res) => {
   res.send({ data: "You have reached the third route" });
 });
 
+let balance = 100;
+
+app.get("/wallet/:withdrawalAmount", (req, res) => {
+  const withdrawalAmount = Number(req.params.withdrawalAmount);
+
+  if (!withdrawalAmount) res.send({ data: "You have submitted an incorrect number" });
+
+  if (balance - withdrawalAmount < 0) {
+    res.send({ data: "Sorry, not enought funds" });
+  } else {
+    balance -= withdrawalAmount;
+    res.send({ data: balance });
+  }
+});
+
+/*
+  Task: Create a route called fillUpWallet that allows a client
+  to fill up the wallet with a specified amount.
+*/
+
 app.get("/page", (req, res) => {
   res.send("<h1>Hello World</h1>"); // Express knows when to send JSON, and HTML page
 });
