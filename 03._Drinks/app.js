@@ -106,6 +106,24 @@ app.patch("/api/drinks/:id", (req, res) => {
   return res.send({ data: drinks });
 });
 
+app.delete("/api/drinks/:id", (req, res) => {
+  console.log("DELETE");
+  // Get information
+  const drinkToDeleteId = Number(req.params.id);
+
+  // Validate object information
+  if (!drinkToDeleteId) return res.status(400).send({ data: "Invalid id." });
+
+  // Validate object exists
+  if (drinks.find((drink) => drink.id === drinkToDeleteId) === undefined)
+    return res.status(400).send({ data: "Cannot find drink in database." });
+
+  // Delete resource from database
+  drinks = drinks.filter((drink) => drink.id !== drinkToDeleteId);
+
+  res.send({ data: "Resource deleted." });
+});
+
 app.listen(8080, (error) => {
   if (error) {
     console.log("Error starting the server");
