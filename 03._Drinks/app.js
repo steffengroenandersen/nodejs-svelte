@@ -2,6 +2,8 @@ const express = require("express");
 
 const app = express();
 
+app.use(express.json());
+
 const drinks = [
   {
     id: 1,
@@ -36,6 +38,28 @@ app.get("/api/drinks/:id", (req, res) => {
   } else {
     res.send({ data: foundDrink });
   }
+});
+
+app.post("/api/drinks/:id", (req, res) => {
+  console.log(req.body);
+
+  const request = req.body;
+
+  const newDrink = {
+    id: drinks.length + 1,
+    name: request.name,
+    description: request.description,
+  };
+
+  if (!newDrink.name || typeof newDrink.name !== "string" || newDrink.name.trim() === "")
+    return res.status(400).send({ data: "Invalid input." });
+
+  if (!newDrink.description || typeof newDrink.description !== "string" || newDrink.description.trim() === "")
+    return res.status(400).send({ data: "Invalid input." });
+
+  drinks.push(newDrink);
+
+  return res.send({ data: newDrink });
 });
 
 app.listen(8080, (error) => {
