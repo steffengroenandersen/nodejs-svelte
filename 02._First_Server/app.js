@@ -62,6 +62,18 @@ app.get("/page", (req, res) => {
   res.send("<h1>Hello World</h1>"); // Express knows when to send JSON, and HTML page
 });
 
+app.get("/saySomethingNice/:greeting", (req, res) => {
+  console.log(req.params.greeting);
+
+  console.log(req.query);
+
+  if (req.query.handsome !== "very") {
+    return res.send({ data: "Ain't no thang." });
+  }
+
+  res.send({ data: "Thanks cool cat" });
+});
+
 // http: 80
 // https: 443
 // http dev: 8080
