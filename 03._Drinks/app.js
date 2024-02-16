@@ -4,7 +4,7 @@ const app = express();
 
 app.use(express.json());
 
-const drinks = [
+let drinks = [
   {
     id: 1,
     name: "Mystic Mojito",
@@ -25,6 +25,8 @@ const drinks = [
   },
 ];
 
+let incrementedDrinksId = drinks.length;
+
 app.get("/api/drinks", (req, res) => {
   res.send({ data: drinks });
 });
@@ -41,25 +43,48 @@ app.get("/api/drinks/:id", (req, res) => {
 });
 
 app.post("/api/drinks/:id", (req, res) => {
-  console.log(req.body);
-
   const request = req.body;
 
-  const newDrink = {
-    id: drinks.length + 1,
-    name: request.name,
-    description: request.description,
-  };
+  const newDrink = { id: drinks.length + 1, name: request.name, description: request.description };
 
   if (!newDrink.name || typeof newDrink.name !== "string" || newDrink.name.trim() === "")
-    return res.status(400).send({ data: "Invalid input." });
+    return res.status(400).send({ data: "Invalid input for name." });
 
   if (!newDrink.description || typeof newDrink.description !== "string" || newDrink.description.trim() === "")
-    return res.status(400).send({ data: "Invalid input." });
+    return res.status(400).send({ data: "Invalid input for description." });
 
   drinks.push(newDrink);
 
   return res.send({ data: newDrink });
+});
+
+app.put("/api/drinks/:id", (req, res) => {
+  console.log("PUT METHOD()");
+
+  // get data
+  let drinkRequest = req.body;
+
+  // validate object information
+  if (!drinkRequest.id) return res.status(400).send({ data: "Invalid id." });
+
+  if (!drinkRequest.name) return res.status(400).send({ data: "Invalid name." });
+
+  if (!drinkRequest.description) return res.status(400).send({ data: "Invalid description." });
+
+  // validate it exists
+  if (drinks.find((drink) => drink.id === drinkRequest.id) === undefined)
+    return res.status(400).send({ data: "Drink not found in database." });
+
+  // remove it from database
+  drinks = drinks.filter((drink) => drink.id !== drinkRequest.id);
+
+  // insert new into database
+  incrementedDrinksId++;
+  drinkRequest.id = incrementedDrinksId;
+
+  drinks.push(drinkRequest);
+
+  res.send({ data: drinks });
 });
 
 app.listen(8080, (error) => {
