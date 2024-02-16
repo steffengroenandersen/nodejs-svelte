@@ -3,6 +3,7 @@ const app = express();
 
 // const app = require("express") ();
 
+app.use(express.json()); // Enables us to parse req.body
 // route
 // // endpoint
 // // // callback function
@@ -72,6 +73,11 @@ app.get("/saySomethingNice/:greeting", (req, res) => {
   }
 
   res.send({ data: "Thanks cool cat" });
+});
+
+app.post("/postman", (req, res) => {
+  console.log(req.body);
+  res.send(req.body);
 });
 
 // http: 80
