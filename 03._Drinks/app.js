@@ -87,6 +87,25 @@ app.put("/api/drinks/:id", (req, res) => {
   res.send({ data: drinks });
 });
 
+app.patch("/api/drinks/:id", (req, res) => {
+  console.log("PATCH");
+
+  // Get information
+  const drinkToPatchId = Number(req.params.id);
+  const drinksRequest = req.body;
+
+  // Validate object information
+  if (!drinkToPatchId) return res.status(400).send({ data: "Invalid id." });
+
+  // Validate object exists
+  if (drinks.find((drink) => drink.id === drinkToPatchId) === undefined)
+    return res.status(400).send({ data: "Cannot find drink in database." });
+
+  // Insert changes into database
+  // Return updated object
+  return res.send({ data: drinks });
+});
+
 app.listen(8080, (error) => {
   if (error) {
     console.log("Error starting the server");
