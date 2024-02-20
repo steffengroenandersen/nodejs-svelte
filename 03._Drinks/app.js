@@ -32,20 +32,26 @@ app.get("/api/drinks", (req, res) => {
 });
 
 app.get("/api/drinks/:id", (req, res) => {
-  const providedDrinkId = Number(req.params.id);
-  const foundDrink = drinks.find((drink) => drink.id === providedDrinkId);
+  const drinkId = Number(req.params.id);
+
+  if (!drinkId) return res.status(404).send([{ data: "Invalid id." }]);
+
+  const foundDrink = drinks.find((drink) => drink.id === drinkId);
 
   if (!foundDrink) {
-    res.status(404).send({ data: "Drink not found" });
+    res.status(404).send({ data: "Drink not found." });
   } else {
     res.send({ data: foundDrink });
   }
 });
 
-app.post("/api/drinks/:id", (req, res) => {
+app.post("/api/drinks/", (req, res) => {
   const request = req.body;
+  incrementedDrinksId++;
 
-  const newDrink = { id: drinks.length + 1, name: request.name, description: request.description };
+  const drinkId = incrementedDrinksId;
+
+  const newDrink = { id: drinkId, name: request.name, description: request.description };
 
   if (!newDrink.name || typeof newDrink.name !== "string" || newDrink.name.trim() === "")
     return res.status(400).send({ data: "Invalid input for name." });
@@ -55,59 +61,57 @@ app.post("/api/drinks/:id", (req, res) => {
 
   drinks.push(newDrink);
 
-  return res.send({ data: newDrink });
+  return res.status(200).send();
 });
 
 app.put("/api/drinks/:id", (req, res) => {
-  console.log("PUT METHOD()");
+  // Get information
+  const drinkId = Number(req.params.id);
 
-  // get data
   let drinkRequest = req.body;
 
-  // validate object information
-  if (!drinkRequest.id) return res.status(400).send({ data: "Invalid id." });
-
+  // Validate object information
+  if (!drinkid) return res.status(400).send({ data: "Invalid id." });
   if (!drinkRequest.name) return res.status(400).send({ data: "Invalid name." });
-
   if (!drinkRequest.description) return res.status(400).send({ data: "Invalid description." });
 
-  // validate it exists
-  if (drinks.find((drink) => drink.id === drinkRequest.id) === undefined)
+  // Validate it exists
+  if (drinks.find((drink) => drink.id === drinkId) === undefined)
     return res.status(400).send({ data: "Drink not found in database." });
 
-  // remove it from database
-  drinks = drinks.filter((drink) => drink.id !== drinkRequest.id);
+  // Remove it from database
+  drinks = drinks.filter((drink) => drink.id !== drinkId);
 
-  // insert new into database
+  // Insert new into database
   incrementedDrinksId++;
   drinkRequest.id = incrementedDrinksId;
 
   drinks.push(drinkRequest);
 
-  res.send({ data: drinks });
+  res.status(200).send();
 });
 
 app.patch("/api/drinks/:id", (req, res) => {
-  console.log("PATCH");
-
   // Get information
   const drinkToPatchId = Number(req.params.id);
-  const drinksRequest = req.body;
+  const drinkRequest = req.body;
 
   // Validate object information
   if (!drinkToPatchId) return res.status(400).send({ data: "Invalid id." });
 
   // Validate object exists
-  if (drinks.find((drink) => drink.id === drinkToPatchId) === undefined)
-    return res.status(400).send({ data: "Cannot find drink in database." });
+  const foundDrink = drinks.find((drink) => drink.id === drinkToPatchId);
+  if (!foundDrink) return res.status(400).send({ data: "Cannot find drink in database" });
 
   // Insert changes into database
+  if (drinkRequest.name) foundDrink.name = drinkRequest.name;
+  if (drinkRequest.description) foundDrink.description = drinkRequest.description;
+
   // Return updated object
-  return res.send({ data: drinks });
+  return res.status(200).send();
 });
 
 app.delete("/api/drinks/:id", (req, res) => {
-  console.log("DELETE");
   // Get information
   const drinkToDeleteId = Number(req.params.id);
 
