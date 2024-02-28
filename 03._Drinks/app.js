@@ -101,6 +101,7 @@ app.patch("/api/drinks/:id", (req, res) => {
 
   // Validate object exists
   const foundDrink = drinks.find((drink) => drink.id === drinkToPatchId);
+  console.log(foundDrink);
   if (!foundDrink) return res.status(400).send({ data: "Cannot find drink in database" });
 
   // Insert changes into database
