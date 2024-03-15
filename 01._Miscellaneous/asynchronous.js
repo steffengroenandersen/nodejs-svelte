@@ -15,6 +15,9 @@
 //  - resolved
 //  - rejected
 
+// Solutoin 3: Async/Await
+// Syntatic sugar
+
 // new Promise((resolve, reject) => {
 //   setTimeout(() => {
 //     try {
@@ -36,24 +39,94 @@
 // and it should either resolve as "Something Good" or reject as "Something Bad"
 // create a 3 second timeout to simulate asynchronous behavior
 
-const value = true;
+function myPromise() {
+  const value = true;
 
-function myPromise(value) {
   return new Promise((resolve, reject) => {
-
     setTimeout(() => {
-    
       // use try catch instead
       if (value) {
         resolve("Value is true");
       } else {
         reject("Value is false");
       }
-    
     }, 2000);
   });
 }
 
-myPromise(value)
-  .then((successMessage) => console.log(successMessage))
-  .catch((failMessage) => console.log(failMessage));
+// myPromise(value)
+//   .then((successMessage) => console.log(successMessage))
+//   .catch((failMessage) => console.log(failMessage));
+
+// Assignment: Try to simulate the fetch function. Call it myFetch.
+// It should return the promise json() so that you can call response.json() on it
+// As much as possible try to imagine how fetch works and simulate the underlying code
+
+// function myFetch() {
+//   return new Promise((resolve, reject) => {
+//     try {
+//       resolve(
+//         (response = {
+//           json: () => {
+//             return new Promise((resolve, reject) => {
+//               try {
+//                 resolve({ data: "hello" });
+//               } catch (error) {
+//                 reject(error);
+//               }
+//             });
+//           },
+//         })
+//       );
+//     } catch (error) {
+//       reject(error);
+//     }
+//   });
+// }
+
+// myFetch()
+//   .then((response) => response.json())
+//   .then((data) => console.log(data))
+//   .catch((error) => console.log(error));
+
+// function myFetchAnders(URL, options = {}) {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       try {
+//         resolve({
+//           json: () => new Promise((resolve, reject) => resolve("Response from server")
+//         )});
+//       } catch {
+//         reject();
+//       }
+//     }, 2500);
+//   });
+// }
+
+// myFetchAnders()
+// .then((response) => response.json())
+// .then((data) => console.log(data))
+// .catch((data) => console.log(data));
+
+async function main() {
+  try {
+    const myPromiseResult = await myPromise();
+    console.log("In main:" + myPromiseResult);
+    return myPromiseResult;
+  } catch (error) {
+    console.log(error);
+  }
+  
+}
+
+async function wrapperMain(){
+  const data = await main();
+  console.log(data);
+
+  return data;
+}
+
+const data = await wrapperMain();
+
+console.log(data);
+
