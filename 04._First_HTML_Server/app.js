@@ -11,6 +11,22 @@ app.get("/publicsquare", (req, res) => {
   res.sendFile(__dirname + "/public/publicSquare.html");
 });
 
+app.get("/treasuretrove", (req, res) => {
+  res.send({ data: "You found it" });
+});
+
+// REQUEST PARAMETER
+app.get("/secretpassphrase", (req, res) => {
+  const secret = req.query.passphrase;
+  console.log(secret);
+
+  if (secret !== "bob") {
+    res.status(400).send({ data: "Wrong passphrase!" });
+  } else {
+    return res.redirect("/treasuretrove");
+  }
+});
+
 app.get("/proxy", (req, res) => {
   /* proxy for google */
   fetch("https://www.google.com")
