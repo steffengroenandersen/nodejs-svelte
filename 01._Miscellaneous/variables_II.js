@@ -16,7 +16,7 @@
 // global scope
 
 function someOtherScope() {
-  // function score
+  // function scope
   //console.log("This is a function scopes");
 }
 

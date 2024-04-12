@@ -38,3 +38,12 @@ const doubledNumberObjects = numberObjects.map((number, index, originalArray) =>
 
 //console.log(numberObjects);
 //console.log(doubledNumberObjects);
+
+
+
+
+const students = [{ name: "Steffen" }, { name: "Mathias" }, { name: "Jacob" }, { name: "Morten" }];
+
+students.forEach((student) => {
+    console.log(student.name);
+});

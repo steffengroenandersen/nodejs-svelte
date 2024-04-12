@@ -4,7 +4,7 @@ let firstName = "Steffen";
 
 const me = {};
 
-me.firstNname = "Steffen";
+me.firstName = "Steffen";
 
 me = null;
 
