@@ -1,10 +1,17 @@
-export function fetchGet(url) {
-  return fetch(url, {
-    credentials: "include",
-  })
-    .then((response) => response.json())
-    .then((result) => result)
-    .catch((error) => console.error(error));
+export async function fetchGet(url) {
+  let data;
+
+  try {
+    const response = await fetch(url, {
+      credentials: "include",
+    });
+    const result = await response.json();
+    data = result.data;
+  } catch (error) {
+    console.log(error);
+  }
+
+  return data;
 }
 
 export function fetchPost(url, body) {

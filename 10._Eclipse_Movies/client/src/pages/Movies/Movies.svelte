@@ -6,10 +6,12 @@
   let movies = [];
 
   onMount(async () => {
+    movies = (await fetchGet($BASE_URL + "/api/movies")) ?? [];
+
     // The best:
-    const results = await fetchGet($BASE_URL + "/api/movies");
-    movies = results.data;
-    
+    // const results = await fetchGet($BASE_URL + "/api/movies");
+    // movies = results.data;
+
     // Method new:
     // movies = (await fetchGet($BASE_URL, + "api/movies")).data;
 
