@@ -22,7 +22,7 @@ io.on("connection", (socket) => {
     // Sends only to others than itself
     // socket.broadcast.emit("server-sends-color", data);
 
-    // Sends to itself and others in the io namespace.
+    // Sends to itself and others in the io namespace
     io.emit("server-sends-color", data);
 
 
